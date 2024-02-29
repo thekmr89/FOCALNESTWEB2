@@ -1,0 +1,48 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="AdminModelCstm blogModelCstm">
+        {% if cl.result_list %}
+            <table cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th align="center">S.No</th>
+                        <th align="left">Name</th>
+                        <th align="center">Email</th>
+                        <th align="center">Number</th>
+                        <th align="center">Message</th>
+                        {% if perms.FocalNest.delete_enquiry %}
+                            <th align="center">Delete</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for enquiry_admin in cl.result_list %}
+                        <tr>
+                            <td align="center">{{ forloop.counter }}</td>
+                            <td>{{ enquiry_admin.name }}</td>
+                            <td align="center">{{ enquiry_admin.email }}</td>
+                            <td align="center">{{ enquiry_admin.phone }}</td>
+                            <td align="center">{{ enquiry_admin.message }}</td>
+                            {% if perms.FocalNest.delete_enquiry %}
+                                <td align="center">
+                                    <form action="{% url 'admin:FocalNest_enquiry_delete' enquiry_admin.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button class="delete-mdl" onclick="return confirm('Are you sure you want to delete?')" type="submit">
+                                            <img src="{% static 'admin/icons/delete.png' %}" alt="Delete">
+                                        </button>
+                                    </form>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="no-data">
+                <img src="{% static 'admin/icons/no-data.png' %}" alt="no enquiry">
+                <h3>There is no Enquiry!!</h3>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocalNest: Adminstration</title>
+    <link rel="stylesheet" href="{% static 'admin/admin.css' %}" type="text/css">
+</head>
+<body>
+    <main>
+        {% if user.is_authenticated %}
+            {% include "admin/base.html" %}
+        {% else %}
+            <script type="text/javascript">
+                window.location = "{% url 'admin:login' %}";
+            </script>
+        {% endif %}
+    </main>
+</body>
+</html>

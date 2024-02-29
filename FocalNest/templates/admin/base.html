@@ -1,0 +1,36 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block header %}
+    {% if user.is_authenticated %}
+        <header>
+            <div class="header-wrapper">
+                <nav>
+                    <p>Hello, <b>{{user}}</b></p>
+                    <a href="/" target="_blank" class="view-website">
+                        <img src="{% static "admin/icons/website.png" %}" alt="View Website">
+                        Visit Website
+                    </a>
+                    <form id="logoutbtn" method="post" action="{% url 'admin:logout' %}?next={% url 'admin:login' %}">
+                        {% csrf_token %}
+                        <button type="submit">Logout <img src="{% static "admin/icons/logout.png" %}" /></button>
+                    </form>
+                </nav>
+            </div>
+        </header>
+    {% endif %}
+{% endblock %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/admin.css" %}" />{% endblock %}
+{% block extrahead %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript">
+        setTimeout(function(){
+            $('.messagelist').remove();
+        },2000)
+    </script>
+{% endblock %}
+{% block nav-sidebar %}
+    <div class="logo">
+        <a href="{% url 'admin:index' %}"><img src="{% static 'images/logo.png' %}" alt="Logo"></a>
+    </div>
+{{ block.super }}
+{% endblock %}
